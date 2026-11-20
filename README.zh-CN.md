@@ -1,55 +1,68 @@
-# Android 打地鼠
+<div align="center">
 
-**使用 Java、Android 原生视图和 Canvas 构建的离线街机小游戏。**
+<h1>Android 打地鼠</h1>
+<p><strong>9 个地洞，3 轮挑战，每轮打中 10 次。</strong></p>
+<p>一款由 Canvas 绘制、可以离线玩的 Android 街机小游戏。</p>
 
-玩家需要在倒计时结束前打中十只地鼠，再挑战速度逐步提升的三轮游戏。点击标题画面后进入动画菜单，从九宫格地洞开始游戏，每轮结束后显示结算画面。
+<p>
+<img alt="Android 7.0 及以上" src="https://img.shields.io/badge/Android-7.0%2B-3DDC84?logo=android&logoColor=white">
+<img alt="Java" src="https://img.shields.io/badge/Code-Java-E76F00">
+<img alt="离线单人" src="https://img.shields.io/badge/Play-Offline-668459">
+</p>
 
-## 可以做什么
+<p><a href="#打开就能玩">玩法</a> · <a href="#三轮挑战速度递增">关卡</a> · <a href="#构建并运行">构建</a> · <a href="README.md">English</a></p>
 
-- 点击标题画面展开动画菜单，开始游戏。
-- 在三乘三的地洞中点击当前出现的地鼠。
-- 挑战三轮游戏，每轮分别计分和计时。
-- 过关后进入下一关，或选择重新开始、返回首页。
-- 切换到其他应用后，返回继续尚未结束的一轮。
+</div>
 
-## 每轮如何进行
+---
 
-每轮限时 30 秒，打中十次即可过关。进入下一关时，分数重置为 **0 / 10**，地鼠的移动间隔依次从 1,150 毫秒缩短到 1,000 和 850 毫秒。
+趁地鼠换洞前点中它，累计十次命中，再挑战下一轮。每轮重新计分，地鼠也会跑得更快。
 
-只有点中当前地鼠、且剩余时间大于零时才计分。下次出现会换一个地洞。达到十次命中后过关，倒计时归零则进入结算画面。应用切到后台时暂停计时和地鼠移动。
+## 打开就能玩
 
-## 本地运行
+1. 点击标题画面，展开动画菜单。
+2. 选择 **Start game**，在九宫格里找到地鼠。
+3. 在 30 秒倒计时结束前达到 **10 / 10**。
+4. 过关后选择 **Next level**。超时或完成最后一轮后，可以 **Play again** 或 **Exit to home**。
 
-需要 Android Studio、JDK 17 和 Android SDK Platform 34。在 Android 7.0（API 24）及以上的设备或模拟器上运行 `app` 模块。
+切换到其他应用时，本轮暂停。返回后继续使用剩余时间。
 
-Windows 下运行以下命令构建 Debug APK。
+## 三轮挑战，速度递增
+
+| 关卡 | 时间 | 目标 | 地鼠移动间隔 |
+| --- | --- | --- | --- |
+| 1 | 30 秒 | 命中 10 次 | 1,150 毫秒 |
+| 2 | 30 秒 | 命中 10 次 | 1,000 毫秒 |
+| 3 | 30 秒 | 命中 10 次 | 850 毫秒 |
+
+剩余时间大于零且点中当前地鼠时才计分，下次出现会换一个地洞。每轮结束后显示结算画面，选择继续后才开始下一轮。
+
+## 构建并运行
+
+用 Android Studio 打开项目，配置 **JDK 17** 和 **Android SDK Platform 34**，在 Android 7.0（API 24）及以上的设备或模拟器运行 `app` 模块。
+
+Windows 下运行以下命令。
 
 ```powershell
 .\gradlew.bat assembleDebug
 ```
 
-macOS 或 Linux 下运行 `sh ./gradlew assembleDebug`。APK 位于 `app/build/outputs/apk/debug/app-debug.apk`。
+macOS 或 Linux 下运行 `sh ./gradlew assembleDebug`。调试 APK 位于 `app/build/outputs/apk/debug/app-debug.apk`。
 
-### 试玩流程
+<details>
+<summary><strong>游戏是怎样实现的</strong></summary>
 
-1. 点击标题画面，再选择 **Start game**。
-2. 在倒计时结束前命中十次。
-3. 过关后选择 **Next level**。
-4. 超时或完成最后一关后，选择 **Play again** 或 **Exit to home**。
+使用 Java 和 Android 原生视图，标题动画、地洞、地鼠、木槌和结算插画由 Android Canvas 绘制。
 
-## 项目结构
+| 类 | 用途 |
+| --- | --- |
+| `MainActivity.java` | 关卡状态、计时、计分与页面切换 |
+| `BurrowView.java` | 地鼠、地洞与命中效果 |
+| `HomeArtwork.java` | 标题动画插画 |
+| `ResultArtwork.java` | 结算插画 |
 
-```text
-app/src/main/java/com/nine/project_2_finalver/
-  MainActivity.java   关卡状态、计分、计时与页面切换
-  BurrowView.java     地鼠、地洞和命中效果
-  HomeArtwork.java    标题动画插画
-  ResultArtwork.java  结算插画
-app/src/main/res/     布局、主题与启动图标资源
-```
+这些类位于 `app/src/main/java/com/nine/project_2_finalver/`，布局、主题和启动图标在 `app/src/main/res/`。
 
-## 当前范围
+</details>
 
-当前版本提供三轮离线单人游戏。标题动画、地洞、地鼠、木槌和结算插画由 Android Canvas 绘制。游戏无需账号或共享服务器。
-
-[English](README.md)
+当前版本提供三轮离线单人游戏，无需账号或共享服务器。
